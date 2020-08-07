@@ -1,26 +1,27 @@
 package com.bignerdranch.android;
 
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Bundle;
+public abstract class SingleFragmentActivity extends AppCompatActivity {
 
-public class CrimeActivity extends AppCompatActivity {
+    protected abstract Fragment createFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        //Fragment transactions are used to add, remove, attach, detach and replace fragments in the fragment list.
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {
-            fragment = new CrimeFragment();
+            fragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment) //Notice this fragment is a new CrimeFragment() object
-                    .commit(); }
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+        }
     }
 }
