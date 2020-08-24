@@ -40,6 +40,7 @@ public class CrimeFragment extends Fragment {
         mCrime = new Crime();
     }
 
+
     /**
      * A method to inflate the fragment in the activity that wants to host it.
      * After the view is inflated, get a reference to the needed Views and add listeners to necessary members.
