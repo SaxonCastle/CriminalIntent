@@ -12,7 +12,7 @@ public class CrimeLab {
 
     private static CrimeLab sCrimeLab; //s naming convention = static variable
 
-    private static CrimeLab get(Context context) { //context used in Ch 14.
+    static CrimeLab get(Context context) { //context used in Ch 14.
         if (sCrimeLab == null) {
             sCrimeLab = new CrimeLab(context);
         }
