@@ -20,7 +20,7 @@ public class CrimeLab {
     }
 
     /**
-     * private so other classes will not be ablet o create a CrimeLab
+     * private so other classes will not be able to create a CrimeLab
      * @param context   //context used in Ch 14.
      */
     private CrimeLab(Context context) {

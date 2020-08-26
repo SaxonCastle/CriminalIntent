@@ -14,7 +14,10 @@ import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.UUID;
+
 import static android.widget.CompoundButton.*;
+
 
 public class CrimeFragment extends Fragment {
 
@@ -37,7 +40,14 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCrime = new Crime();
+        //This getActivity.getIntent() method grabs the extra from CrimeActivity
+        //The get intent method returns the Intent that was used to start CrimeActivity
+        //You call getSerializableExtra(String) on the intent to pull the UUID out into a variable
+        //This needs to be casted to UUID otherwise it produces a serializable crimeId.
+        //After you have retrieved the ID, you use it to getch the Crime from CrimeLab.
+        UUID crimeId = (UUID) getActivity().getIntent()
+                .getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
 
@@ -60,6 +70,7 @@ public class CrimeFragment extends Fragment {
         //Start mTitleField EditText
         //The fragment class does not have a corresponding convenience method, so you have to call the real thing.
         mTitleField = v.findViewById(R.id.crime_title);
+        mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,6 +96,7 @@ public class CrimeFragment extends Fragment {
 
         //Start mSolvedCheckBox CheckBox
         mSolvedCheckBox = v.findViewById(R.id.crime_solved);
+        mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

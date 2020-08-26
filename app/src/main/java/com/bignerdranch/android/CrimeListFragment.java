@@ -1,5 +1,6 @@
 package com.bignerdranch.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -75,12 +76,18 @@ public class CrimeListFragment extends Fragment {
             mSolvedImageView.setVisibility(crime.isSolved()?View.VISIBLE:View.GONE);
         }
 
+
+        /**
+         * You can tell CrimeFragment which Crime to display by passing the crime ID as an Intent extra when CrimeActivity is started.         *
+         * @param view The view that the click was pressed
+         */
+
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(),
-                    mCrime.getTitle() + " Clicked!",
-                    Toast.LENGTH_SHORT)
-                    .show();
+            //Makes a call to CrimeActivity's intent,
+            //getActivity() is a function from the Fragment inbuilt class
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }
     }
 
