@@ -21,6 +21,9 @@ import static android.widget.CompoundButton.*;
 
 public class CrimeFragment extends Fragment {
 
+    //Add a static string to control the Fragment Argument
+    private static final String ARG_CRIME_ID = "crime_id";
+
     //Initialise an object of the Crime class
     private Crime mCrime;
 
@@ -34,19 +37,34 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
 
     /**
+     * Accepts a UUID, creates arguments bundle and then attaches the arguments to the fragment.
+     * newInstance() is called from CrimeActivity when it needs to create a CrimeFragment.
+     * It will pass in the UUID it retrieved from its extra
+     *
+     * @param crimeId pulled from Crime and placed in a 'put' for use with FragmentManager
+     * @return fragment with set arguments.
+     */
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
      * Notice this is public because they will be called by whatever activity is hosting the fragment
      * @param savedInstanceState Similar to an activity, a fragment can bundle to which it saves and retrieves its state
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //This getActivity.getIntent() method grabs the extra from CrimeActivity
-        //The get intent method returns the Intent that was used to start CrimeActivity
-        //You call getSerializableExtra(String) on the intent to pull the UUID out into a variable
+        //This getArguments() method is part of the Fragment class in android.
+        //You call getSerializable(String) on the intent to pull the UUID out into a variable
         //This needs to be casted to UUID otherwise it produces a serializable crimeId.
-        //After you have retrieved the ID, you use it to getch the Crime from CrimeLab.
-        UUID crimeId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        //After you have retrieved the ID, you use it to fetch the Crime from CrimeLab.
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
