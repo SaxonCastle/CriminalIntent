@@ -25,6 +25,9 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
 
+    //Challenge Efficient RecylcerView
+    private int mLastUpdatedPosition = -1;
+
 
 
     @Override
@@ -39,12 +42,27 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        } else {
+            if (mLastUpdatedPosition > -1) {
+                mAdapter.notifyItemChanged(mLastUpdatedPosition);
+                mLastUpdatedPosition = -1;
+            } else {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     /**
@@ -84,12 +102,15 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //Makes a call to CrimeActivity's intent,
+            //Makes an explicit intent call to CrimeActivity,
             //getActivity() is a function from the Fragment inbuilt class
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            mLastUpdatedPosition = this.getAdapterPosition(); //Challenge Efficient RecyclerCode
             startActivity(intent);
         }
     }
+
+
 
 
     /**

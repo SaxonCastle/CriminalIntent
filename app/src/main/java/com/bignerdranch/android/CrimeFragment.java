@@ -21,9 +21,6 @@ import static android.widget.CompoundButton.*;
 
 public class CrimeFragment extends Fragment {
 
-    //Add a static string to control the Fragment Argument
-    private static final String ARG_CRIME_ID = "crime_id";
-
     //Initialise an object of the Crime class
     private Crime mCrime;
 
@@ -36,13 +33,14 @@ public class CrimeFragment extends Fragment {
     //Initialise the CheckBoxes
     private CheckBox mSolvedCheckBox;
 
-    /**
-     * Accepts a UUID, creates arguments bundle and then attaches the arguments to the fragment.
-     * newInstance() is called from CrimeActivity when it needs to create a CrimeFragment.
-     * It will pass in the UUID it retrieved from its extra
-     *
-     * @param crimeId pulled from Crime and placed in a 'put' for use with FragmentManager
-     * @return fragment with set arguments.
+    //Create a static String for fragment recognition
+    private static final String ARG_CRIME_ID = "crime_id";
+
+    /*
+    public method of CrimeFragment that can be called whenever another class wants to
+    intialise a new instance of this fragment.
+
+    Adds a seriablizable argument into a Bundle and assigns it to an instance of CrimeFragment with arguments.
      */
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -60,10 +58,8 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //This getArguments() method is part of the Fragment class in android.
-        //You call getSerializable(String) on the intent to pull the UUID out into a variable
-        //This needs to be casted to UUID otherwise it produces a serializable crimeId.
-        //After you have retrieved the ID, you use it to fetch the Crime from CrimeLab.
+        //Grabs the arguments from the above newInstance argument bundle and
+        // assigns the id to mCrime to display the correct crime.
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
