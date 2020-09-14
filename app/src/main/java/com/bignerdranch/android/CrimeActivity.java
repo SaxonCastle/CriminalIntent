@@ -15,9 +15,9 @@ import java.util.UUID;
  * It sets the content view to the corresponding layout file
  * and checks if there is not a fragment that already exists.
  */
-public class CrimeActivity extends AppCompatActivity {
+public class CrimeActivity extends SingleFragmentActivity {
 
-    public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
+    private static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
 
     public static Intent newIntent(Context packageContext, UUID crimeID) {
         //Create an explicit intent
@@ -29,18 +29,9 @@ public class CrimeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-
-        //Fragment transactions are used to add, remove, attach, detach and replace fragments in the fragment list.
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-
-        if (fragment == null) {
-            fragment = new CrimeFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment) //Notice this fragment is a new CrimeFragment() object
-                    .commit(); }
+    protected  Fragment createFragment() {
+        UUID crimeId = (UUID) getIntent()
+                .getSerializableExtra(EXTRA_CRIME_ID);
+        return CrimeFragment.newInstance(crimeId);
     }
 }

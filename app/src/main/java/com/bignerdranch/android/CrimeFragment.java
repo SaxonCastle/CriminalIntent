@@ -33,6 +33,24 @@ public class CrimeFragment extends Fragment {
     //Initialise the CheckBoxes
     private CheckBox mSolvedCheckBox;
 
+    //Create a static String for fragment recognition
+    private static final String ARG_CRIME_ID = "crime_id";
+
+    /*
+    public method of CrimeFragment that can be called whenever another class wants to
+    intialise a new instance of this fragment.
+
+    Adds a seriablizable argument into a Bundle and assigns it to an instance of CrimeFragment with arguments.
+     */
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     /**
      * Notice this is public because they will be called by whatever activity is hosting the fragment
      * @param savedInstanceState Similar to an activity, a fragment can bundle to which it saves and retrieves its state
@@ -40,13 +58,9 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //This getActivity.getIntent() method grabs the extra from CrimeActivity
-        //The get intent method returns the Intent that was used to start CrimeActivity
-        //You call getSerializableExtra(String) on the intent to pull the UUID out into a variable
-        //This needs to be casted to UUID otherwise it produces a serializable crimeId.
-        //After you have retrieved the ID, you use it to getch the Crime from CrimeLab.
-        UUID crimeId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        //Grabs the arguments from the above newInstance argument bundle and
+        // assigns the id to mCrime to display the correct crime.
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
