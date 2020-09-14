@@ -38,6 +38,7 @@ public class CrimePagerActivity extends AppCompatActivity {
         //find the ViewPager in the activity's view
         mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
 
+
         //grab data from CrimeLab - the List of crimes.
         mCrimes = CrimeLab.get(this).getCrimes();
         //Get the activity's instance of FragmentManager
@@ -58,7 +59,14 @@ public class CrimePagerActivity extends AppCompatActivity {
             }
         });
 
-
+        //this loop exists because ViewPager only shows the first item in its PageAdapter
+        //It finds the Crime instance whose mId matches the crimeId in the intent extra
+        for (int i = 0; i < mCrimes.size(); i++) {
+            if (mCrimes.get(i).getId().equals(crimeId)) {
+                mViewPager.setCurrentItem(i);
+                break;
+            }
+        }
     }
 
 }
