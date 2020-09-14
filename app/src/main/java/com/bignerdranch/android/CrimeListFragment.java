@@ -104,7 +104,7 @@ public class CrimeListFragment extends Fragment {
         public void onClick(View view) {
             //Makes an explicit intent call to CrimeActivity,
             //getActivity() is a function from the Fragment inbuilt class
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
             mLastUpdatedPosition = this.getAdapterPosition(); //Challenge Efficient RecyclerCode
             startActivity(intent);
         }
