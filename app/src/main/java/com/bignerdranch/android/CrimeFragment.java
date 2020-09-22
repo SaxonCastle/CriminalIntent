@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,10 +40,14 @@ public class CrimeFragment extends Fragment {
     //Initialise the CheckBoxes
     private CheckBox mSolvedCheckBox;
 
+
+
+
     //Create a static String for fragment recognition
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
+
 
     /*
     public method of CrimeFragment that can be called whenever another class wants to
@@ -64,10 +71,41 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //To Show Menu Bar
+        setHasOptionsMenu(true);
+
         //Grabs the arguments from the above newInstance argument bundle and
         // assigns the id to mCrime to display the correct crime.
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+    }
+
+    // Inflate menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.crime_delete_menu, menu);
+    }
+
+    /*
+    A method to inflate a delete crimes menu action item
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_crime:
+                // Delete crimeID from CrimeLab
+                CrimeLab crimeLab = CrimeLab.get(getActivity());
+                crimeLab.deleteCrime(mCrime.getId());
+
+                // Back to CrimeListFragment by Intent.
+                Intent intent = new Intent(getActivity(), CrimeListActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -106,11 +144,7 @@ public class CrimeFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 //This is intentionally left blank
             }
-
         });
-
-
-
 
         //Start mDateButton Button
         mDateButton = v.findViewById(R.id.crime_date);

@@ -2,7 +2,6 @@ package com.bignerdranch.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,14 +26,14 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
 
-    //Challenge Efficient RecylcerView
+    //Challenge Efficient RecyclerView
     private int mLastUpdatedPosition = -1;
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
     /**
      * Method only necessary once a menu is defined and needs to be inflated
-     * @param savedInstanceState
+     * @param savedInstanceState r
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +54,6 @@ public class CrimeListFragment extends Fragment {
         }
 
         updateUI();
-
         return view;
     }
 
