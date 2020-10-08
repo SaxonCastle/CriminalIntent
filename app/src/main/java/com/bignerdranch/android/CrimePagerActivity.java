@@ -37,8 +37,6 @@ public class CrimePagerActivity extends AppCompatActivity {
 
         //find the ViewPager in the activity's view
         mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
-
-
         //grab data from CrimeLab - the List of crimes.
         mCrimes = CrimeLab.get(this).getCrimes();
         //Get the activity's instance of FragmentManager
@@ -68,5 +66,4 @@ public class CrimePagerActivity extends AppCompatActivity {
             }
         }
     }
-
 }

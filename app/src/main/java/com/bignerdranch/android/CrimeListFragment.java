@@ -131,10 +131,10 @@ public class CrimeListFragment extends Fragment {
                 mAdapter.notifyItemChanged(mLastUpdatedPosition);
                 mLastUpdatedPosition = -1;
             } else {
+                mAdapter.setCrimes(crimes);
                 mAdapter.notifyDataSetChanged();
             }
         }
-
         updateSubtitle();
     }
 
@@ -182,9 +182,6 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-
-
-
     /**
      * When the recycler view needs to display a new ViewHolder or connect a Crime object to an existing
      * ViewHolder, it will ask this adapter for help by calling a method on it.
@@ -226,8 +223,9 @@ public class CrimeListFragment extends Fragment {
             return mCrimes.size();
         }
 
-
-
+         public void setCrimes(List<Crime> crimes) {
+            mCrimes = crimes;
+         }
     }
 
 }

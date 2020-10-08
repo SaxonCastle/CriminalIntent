@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,9 +38,6 @@ public class CrimeFragment extends Fragment {
 
     //Initialise the CheckBoxes
     private CheckBox mSolvedCheckBox;
-
-
-
 
     //Create a static String for fragment recognition
     private static final String ARG_CRIME_ID = "crime_id";
@@ -81,6 +77,14 @@ public class CrimeFragment extends Fragment {
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        CrimeLab.get(getActivity())
+                .updateCrime(mCrime);
+    }
+
     // Inflate menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -97,7 +101,7 @@ public class CrimeFragment extends Fragment {
             case R.id.delete_crime:
                 // Delete crimeID from CrimeLab
                 CrimeLab crimeLab = CrimeLab.get(getActivity());
-                crimeLab.deleteCrime(mCrime.getId());
+                crimeLab.deleteCrime(mCrime);
 
                 // Back to CrimeListFragment by Intent.
                 Intent intent = new Intent(getActivity(), CrimeListActivity.class);
@@ -107,7 +111,6 @@ public class CrimeFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     /**
      * A method to inflate the fragment in the activity that wants to host it.
@@ -173,6 +176,7 @@ public class CrimeFragment extends Fragment {
         return v;
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
